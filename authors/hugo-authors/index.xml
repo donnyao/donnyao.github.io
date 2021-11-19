@@ -6,11 +6,11 @@
     <description>Recent content in Donny Arief Oktavian on DO IT</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnyao.github.io/authors/hugo-authors/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnyao.github.io/authors/hugo-authors/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Openstack with Ceph storage backend provisioning</title>
       <link>https://donnyao.github.io/post/openstack_ceph/</link>
-      <pubDate>Sun, 11 Jul 2021 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 19 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://donnyao.github.io/post/openstack_ceph/</guid>
       <description>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo
