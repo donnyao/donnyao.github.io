@@ -8,17 +8,6 @@
     <language>en-us</language>
     <lastBuildDate>Fri, 19 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Adding Octavia Openstack Service</title>
-      <link>https://donnyao.github.io/post/openstack_octavia/</link>
-      <pubDate>Fri, 19 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://donnyao.github.io/post/openstack_octavia/</guid>
-      <description>Kali ini kita akan menambahkan service loadbalancer pada Openstack. Disini saya menggunakan kolla-ansible untuk mendeploy service Octavia. Tutorial ini menggunakan versi Openstack Ussuri pada Ubuntu 18.04 dengan deployment tool Kolla-Ansible.
-Prerequisite  Openstack Cluster  Deploy Octavia Note: Jalankan perintah dibawah ini pada deployer node  Generate certificate untuk service octavia  cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Cari password octavia
-cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Edit password pada script</description>
-    </item>
-    
-    <item>
       <title>Openstack with Ceph Storage Backend Provisioning</title>
       <link>https://donnyao.github.io/post/openstack_ceph/</link>
       <pubDate>Fri, 19 Nov 2021 00:00:00 +0000</pubDate>
