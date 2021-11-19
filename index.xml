@@ -18,12 +18,12 @@ clear </description>
     </item>
     
     <item>
-      <title>My First Post</title>
+      <title>Openstack &#43; Ceph</title>
       <link>https://donnyao.github.io/post/my-first-post/</link>
-      <pubDate>Fri, 19 Nov 2021 15:44:39 +0700</pubDate>
+      <pubDate>Mon, 19 Apr 2021 15:44:39 +0700</pubDate>
       
       <guid>https://donnyao.github.io/post/my-first-post/</guid>
-      <description>This is some content
+      <description>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus.
 sudo apt udpate </description>
     </item>
     
