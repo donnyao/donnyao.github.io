@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Donny Arief Oktavian</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Nov 2021 15:44:39 +0700</lastBuildDate><atom:link href="https://donnyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Nov 2021 16:04:10 +0700</lastBuildDate><atom:link href="https://donnyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test</title>
+      <link>https://donnyao.github.io/post/test/</link>
+      <pubDate>Fri, 19 Nov 2021 16:04:10 +0700</pubDate>
+      
+      <guid>https://donnyao.github.io/post/test/</guid>
+      <description>This my test content
+clear </description>
+    </item>
+    
     <item>
       <title>My First Post</title>
       <link>https://donnyao.github.io/post/my-first-post/</link>
