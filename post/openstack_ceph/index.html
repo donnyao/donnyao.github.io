@@ -24,12 +24,12 @@
 
 
 
-<title>Openstack with Ceph storage backend provisioning | DO IT</title>
+<title>Openstack with Ceph Storage Backend Provisioning | DO IT</title>
 <meta name="description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo
 Prerequisite Konfigurasi Network:
  public api: 10.20.10.0/24 (ens3) internal api: 10.20.11.0/24 (ens4) self-service: 10.20.12.0/24 (ens5) provider: 10.20.13.0/24 (ens6) ceph public: 10.20.14.0/24 (ens7) ceph cluster: 10.20.15.0/24 (ens8)  Service yang akan diinstall:
  Core service (keystone, nova, neutron, glance) Ceph backend (Cinder) Horizon (dashboard)  Preparation Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu">
-<meta property="og:title" content="Openstack with Ceph storage backend provisioning | DO IT">
+<meta property="og:title" content="Openstack with Ceph Storage Backend Provisioning | DO IT">
 <meta property="og:site_name" content="DO IT">
 <meta property="og:description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo
 Prerequisite Konfigurasi Network:
@@ -38,8 +38,8 @@ Prerequisite Konfigurasi Network:
 <meta property="og:url" content="https://donnyao.github.io/post/openstack_ceph/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content='https://donnyao.github.io/images/openstack_ceph.png'><meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Openstack with Ceph storage backend provisioning | DO IT">
+<meta property="og:image" content='https://donnyao.github.io/images/openstack_ceph_topologi.png'><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Openstack with Ceph Storage Backend Provisioning | DO IT">
 
 	<link rel="canonical" href="https://donnyao.github.io/post/openstack_ceph/">
 
@@ -48,7 +48,7 @@ Prerequisite Konfigurasi Network:
 Prerequisite Konfigurasi Network:
  public api: 10.20.10.0/24 (ens3) internal api: 10.20.11.0/24 (ens4) self-service: 10.20.12.0/24 (ens5) provider: 10.20.13.0/24 (ens6) ceph public: 10.20.14.0/24 (ens7) ceph cluster: 10.20.15.0/24 (ens8)  Service yang akan diinstall:
  Core service (keystone, nova, neutron, glance) Ceph backend (Cinder) Horizon (dashboard)  Preparation Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu">
-<meta name="twitter:image" content="https://donnyao.github.io/images/openstack_ceph.png">
+<meta name="twitter:image" content="https://donnyao.github.io/images/openstack_ceph_topologi.png">
 <meta property="article:published_time" content="2021-11-19T00:00:00&#43;00:00">
 	<meta property="article:updated_time" content="2021-11-19T00:00:00&#43;00:00">
 
@@ -118,7 +118,7 @@ Prerequisite Konfigurasi Network:
     <section id="articleHero" class="section narrow">
     <div class="article-hero">
         <header class="article-header">
-            <h1 class="article-hero-heading">Openstack with Ceph storage backend provisioning</h1>
+            <h1 class="article-hero-heading">Openstack with Ceph Storage Backend Provisioning</h1>
             <div class="article-hero-subtitle">
                 <div class="article-meta">
                     
@@ -148,7 +148,7 @@ Prerequisite Konfigurasi Network:
         </header>
         
         <div class="article-hero-image" id="ArticleImage__Hero">
-            <img src="/images/openstack_ceph.png">
+            <img src="/images/openstack_ceph_topologi.png">
         </div>
         
     </div>
@@ -174,7 +174,6 @@ Prerequisite Konfigurasi Network:
     <article  id="articleContent" class="post-content" style="position:relative;">
         <p>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo</p>
 <h2 id="prerequisite">Prerequisite</h2>
-<p><img src="/images/openstack_ceph_topologi.png" alt="Image"></p>
 <p>Konfigurasi Network:</p>
 <ul>
 <li>public api: 10.20.10.0/24 (ens3)</li>
@@ -544,11 +543,11 @@ openstack network agent list
                  id="article-link-bigger">
                     <div>
                         <div class="image-container">
-                            <img src="/images/openstack_ceph.png" class="article-image" />
+                            <img src="/images/openstack_ceph_topologi.png" class="article-image" />
                         </div>
                         <div>
                             <h2 class="article-title">
-                                Openstack with Ceph storage backend provisioning
+                                Openstack with Ceph Storage Backend Provisioning
                             </h2>
                             <p class="article-excerpt">
                                 
