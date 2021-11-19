@@ -142,7 +142,7 @@ Prerequisite Konfigurasi Network:
 
 <script src="/js/collapseAuthors.js"></script>
                     July 11, 2021
-                    • 2 min read
+                    • 4 min read
                 </div>
             </div>
         </header>
@@ -194,21 +194,13 @@ Prerequisite Konfigurasi Network:
 <p>Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu</p>
 <h4 id="note-jalankan-perintah-dibawah-ini-pada-semua-node">Note: Jalankan perintah dibawah ini pada semua node</h4>
 <ul>
-<li>Buat user dan masukan ke grup sudo</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adduser donny
-usermod -aG sudo donny
-echo <span style="color:#e6db74">&#34;donny ALL=(root) NOPASSWD: ALL&#34;</span> | sudo tee /etc/sudoers.d/donny
-sudo chmod <span style="color:#ae81ff">0440</span> /etc/sudoers.d/donny
-su donny
-</code></pre></div><ul>
 <li>Update &amp; Upgrades paket pada semua node</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt update -y <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt update -y <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y
 </code></pre></div><ul>
 <li>Tambahkan host untuk semua node</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo nano /etc/hosts
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nano /etc/hosts
 ....
 10.20.11.211 <span style="color:#66d9ef">do</span>-os-controller1 <span style="color:#66d9ef">do</span>-os-controller1.internal.donny.lab
 10.20.10.211 <span style="color:#66d9ef">do</span>-os-controller1.public.donny.lab
@@ -244,10 +236,11 @@ tee -a /root/.ssh/authorized_keys <span style="color:#e6db74">&lt;&lt; EOF
 </span><span style="color:#e6db74">&lt;ssh pub key do-os-compute3&gt;
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div><h2 id="instalasi-ceph">Instalasi Ceph</h2>
+<h3 id="note-jalankan-perintah-dibawah-ini-di-deployer-node">Note: Jalankan perintah dibawah ini di deployer node</h3>
 <ul>
 <li>Install paket pip3</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt-get install python3-pip -y
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install python3-pip -y
 </code></pre></div><ul>
 <li>Clone file dari repo ceph-ansible</li>
 </ul>
@@ -267,6 +260,7 @@ cp all.yml.sample all.yml
 cp mons.yml.sample mons.yml
 cp osds.yml.sample osds.yml
 cp mgrs.yml.sample mgrs.yml
+
 nano all.yml
 ....
 ceph_origin: repository 
@@ -283,6 +277,7 @@ grafana_admin_user: admin
 grafana_admin_password: yb2DWtryOY1B6HXJTJd44mjqVd43aE4vcyG6NWepz94<span style="color:#f92672">=</span>
 ntp_daemon_type: timesyncd
 ....
+
 nano osds.yml
 ....
 devices:
@@ -327,6 +322,201 @@ inventory<span style="color:#f92672">=</span>hosts
 <li>Cek koneksi ansible host</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible -m ping all
+</code></pre></div><ul>
+<li>deploy ceph</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible-playbook site.yml
+</code></pre></div><ul>
+<li>Buat pool pada ceph</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ceph osd pool create volumes
+ceph osd pool create images
+ceph osd pool create backups
+ceph osd pool create vms
+</code></pre></div><ul>
+<li>Set pool ke rbd ceph</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rbd pool init volumes
+rbd pool init images
+rbd pool init backups
+rbd pool init vms
+</code></pre></div><ul>
+<li>Buat keyring ceph</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ceph auth get-or-create client.glance mon <span style="color:#e6db74">&#39;allow r&#39;</span> osd <span style="color:#e6db74">&#39;allow class-read object_prefix rbd_children, allow rwx pool=images&#39;</span> -o /etc/ceph/ceph.client.glance.keyring
+ceph auth get-or-create client.cinder mon <span style="color:#e6db74">&#39;allow r&#39;</span> osd <span style="color:#e6db74">&#39;allow class-read object_prefix rbd_children, allow rwx pool=volumes, allow rwx pool=images&#39;</span> -o /etc/ceph/ceph.client.cinder.keyring
+ceph auth get-or-create client.nova mon <span style="color:#e6db74">&#39;allow r&#39;</span> osd <span style="color:#e6db74">&#39;allow class-read object_prefix rbd_children, allow rwx pool=vms, allow rx pool=images&#39;</span> -o /etc/ceph/ceph.client.nova.keyring
+ceph auth get-or-create client.cinder-backup mon <span style="color:#e6db74">&#39;allow r&#39;</span> osd <span style="color:#e6db74">&#39;allow class-read object_prefix rbd_children, allow rwx pool=backups&#39;</span> -o /etc/ceph/ceph.client.cinder-backup.keyring
+</code></pre></div><h2 id="instalasi-openstack">Instalasi Openstack</h2>
+<h3 id="note-jalankan-perintah-dibawah-ini-di-deployer-node-1">Note: Jalankan perintah dibawah ini di deployer node</h3>
+<ul>
+<li>Instal dependensi yang dibutuhkan</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install python3-dev libffi-dev gcc libssl-dev python3-selinux python3-setuptools -y
+</code></pre></div><ul>
+<li>Instal kolla-ansible menggunakan pip3</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip3 install kolla-ansible<span style="color:#f92672">==</span>10.2.0
+</code></pre></div><ul>
+<li>Melakukan konfigurasi kolla-ansible</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir ~/openstack
+cd ~/openstack
+mkdir -p /etc/kolla
+chown -R $USER:$USER /etc/kolla
+cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
+cp /usr/local/share/kolla-ansible/ansible/inventory/* .
+</code></pre></div><ul>
+<li>Membuat ansible.cfg file</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /etc/ansible
+nano /etc/ansible/ansible.cfg
+....
+<span style="color:#f92672">[</span>defaults<span style="color:#f92672">]</span>
+host_key_checking<span style="color:#f92672">=</span>False
+pipelining<span style="color:#f92672">=</span>True
+forks<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>
+interpreter_python<span style="color:#f92672">=</span>/usr/bin/python3
+....
+</code></pre></div><ul>
+<li>Membuat ansible inventory</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nano multinode
+....
+<span style="color:#f92672">[</span>control<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-controller1 
+<span style="color:#66d9ef">do</span>-os-controller2 
+<span style="color:#66d9ef">do</span>-os-controller3 
+ 
+<span style="color:#f92672">[</span>network<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-controller1 
+<span style="color:#66d9ef">do</span>-os-controller2 
+<span style="color:#66d9ef">do</span>-os-controller3 
+ 
+<span style="color:#f92672">[</span>compute<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-compute1 
+<span style="color:#66d9ef">do</span>-os-compute2 
+<span style="color:#66d9ef">do</span>-os-compute3 
+ 
+<span style="color:#f92672">[</span>monitoring<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-controller1 
+<span style="color:#66d9ef">do</span>-os-controller2 
+<span style="color:#66d9ef">do</span>-os-controller3 
+ 
+<span style="color:#f92672">[</span>storage<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-controller1 
+<span style="color:#66d9ef">do</span>-os-controller2 
+<span style="color:#66d9ef">do</span>-os-controller3 
+ 
+<span style="color:#f92672">[</span>deployment<span style="color:#f92672">]</span> 
+localhost       ansible_connection<span style="color:#f92672">=</span>local
+....
+</code></pre></div><ul>
+<li>Verifikasi koneksi ansible invetory</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible -i multinode all -m ping
+</code></pre></div><ul>
+<li>Generate password untuk semua service openstack</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kolla-genpwd
+</code></pre></div><ul>
+<li>Membuat global konfigurasi kolla-ansible</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nano /etc/kolla/globals.yml
+....
+<span style="color:#75715e"># global</span>
+kolla_base_distro: <span style="color:#e6db74">&#34;ubuntu&#34;</span>
+kolla_install_type: <span style="color:#e6db74">&#34;source&#34;</span>
+openstack_release: <span style="color:#e6db74">&#34;ussuri&#34;</span>
+nova_compute_virt_type: <span style="color:#e6db74">&#34;kvm&#34;</span>
+<span style="color:#75715e">## network</span>
+kolla_internal_vip_address: <span style="color:#e6db74">&#34;10.20.11.200&#34;</span>
+kolla_internal_fqdn: <span style="color:#e6db74">&#34;internal.donny.lab&#34;</span>
+kolla_external_vip_address: <span style="color:#e6db74">&#34;10.20.10.200&#34;</span>
+kolla_external_fqdn: <span style="color:#e6db74">&#34;public.donny.lab&#34;</span>
+kolla_external_vip_interface: <span style="color:#e6db74">&#34;ens3&#34;</span>
+api_interface: <span style="color:#e6db74">&#34;ens4&#34;</span>
+tunnel_interface: <span style="color:#e6db74">&#34;ens5&#34;</span>
+neutron_external_interface: <span style="color:#e6db74">&#34;ens6&#34;</span>
+neutron_plugin_agent: <span style="color:#e6db74">&#34;ovn&#34;</span>
+neutron_ovn_distributed_fip: <span style="color:#e6db74">&#34;yes&#34;</span>
+enable_neutron_provider_networks: <span style="color:#e6db74">&#34;yes&#34;</span>
+<span style="color:#75715e">## tls</span>
+kolla_enable_tls_internal: <span style="color:#e6db74">&#34;yes&#34;</span>
+kolla_enable_tls_external: <span style="color:#e6db74">&#34;yes&#34;</span>
+kolla_copy_ca_into_containers: <span style="color:#e6db74">&#34;yes&#34;</span>
+kolla_enable_tls_backend: <span style="color:#e6db74">&#34;yes&#34;</span>
+openstack_cacert: <span style="color:#e6db74">&#34;/etc/ssl/certs/ca-certificates.crt&#34;</span>
+<span style="color:#75715e">## openstack service</span>
+enable_openstack_core: <span style="color:#e6db74">&#34;yes&#34;</span>
+enable_cinder: <span style="color:#e6db74">&#34;yes&#34;</span>
+enable_fluentd: “no”
+<span style="color:#75715e">## ceph</span>
+ceph_cinder_keyring: <span style="color:#e6db74">&#34;ceph.client.cinder.keyring&#34;</span>
+ceph_glance_keyring: <span style="color:#e6db74">&#34;ceph.client.glance.keyring&#34;</span>
+ceph_nova_keyring: <span style="color:#e6db74">&#34;ceph.client.nova.keyring&#34;</span>
+ceph_cinder_backup_keyring: <span style="color:#e6db74">&#34;ceph.client.cinder-backup.keyring&#34;</span>
+glance_backend_ceph: <span style="color:#e6db74">&#34;yes&#34;</span>
+cinder_backend_ceph: <span style="color:#e6db74">&#34;yes&#34;</span>
+nova_backend_ceph: <span style="color:#e6db74">&#34;yes&#34;</span>
+<span style="color:#75715e">## docker</span>
+enable_docker_repo: false
+docker_apt_package: docker.io
+</code></pre></div><ul>
+<li>Generate TLS certificate</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kolla-ansible -i multinode certificates
+</code></pre></div><ul>
+<li>Membuat konfigurasi direktori kolla-ansible</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /etc/kolla/config
+mkdir /etc/kolla/config/nova
+mkdir /etc/kolla/config/glance
+mkdir -p /etc/kolla/config/cinder/cinder-volume
+mkdir /etc/kolla/config/cinder/cinder-backup
+</code></pre></div><ul>
+<li>Copy keyring ceph.conf ke direktori kolla-ansible</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cp /etc/ceph/ceph.conf /etc/kolla/config/cinder/
+cp /etc/ceph/ceph.conf /etc/kolla/config/nova/
+cp /etc/ceph/ceph.conf /etc/kolla/config/glance/
+cp /etc/ceph/ceph.client.glance.keyring /etc/kolla/config/glance/
+cp /etc/ceph/ceph.client.nova.keyring /etc/kolla/config/nova/
+cp /etc/ceph/ceph.client.cinder.keyring /etc/kolla/config/nova/
+cp /etc/ceph/ceph.client.cinder.keyring /etc/kolla/config/cinder/cinder-volume/
+cp /etc/ceph/ceph.client.cinder.keyring /etc/kolla/config/cinder/cinder-backup/
+cp /etc/ceph/ceph.client.cinder-backup.keyring /etc/kolla/config/cinder/cinder-backup/
+</code></pre></div><ul>
+<li>Deploy Openstack</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kolla-ansible -i ./multinode bootstrap-servers
+kolla-ansible -i ./multinode prechecks
+kolla-ansible -i ./multinode deploy
+kolla-ansible -i ./multinode post-deploy
+</code></pre></div><ul>
+<li>Menambahkan path CA cert pada rc file</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;export OS_CACERT=/etc/ssl/certs/ca-certificates.crt&#34;</span> | tee -a /etc/kolla/admin-openrc.sh
+</code></pre></div><ul>
+<li>Menambahkan root CA cert pada file ca-certicates</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;export OS_CACERT=/etc/ssl/certs/ca-certificates.crt&#34;</span> | tee -a /etc/kolla/admin-openrc.sh
+</code></pre></div><ul>
+<li>Install openstack client untuk menjalankan openstack dari CLI</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ~
+apt install python3-venv
+python3 -m venv osclient
+source osclient/bin/activate
+pip3 install python-openstackclient
+</code></pre></div><ul>
+<li>Test service openstack</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">source /etc/kolla/admin-openrc.sh
+openstack service list
+openstack compute service list
+openstack volume service list
+openstack network agent list
 </code></pre></div>
     </article>
 
@@ -364,7 +554,7 @@ inventory<span style="color:#f92672">=</span>hosts
                                 
                             </p>
                             <div class="article-metadata">
-                                July 11, 2021 · 2 min read
+                                July 11, 2021 · 4 min read
                             </div>
                         </div>
                     </div>
