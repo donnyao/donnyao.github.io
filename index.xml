@@ -13,45 +13,10 @@
       <pubDate>Sun, 11 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://donnyao.github.io/post/openstack_ceph/</guid>
-      <description>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus.
-sudo apt udpate </description>
-    </item>
-    
-    <item>
-      <title>Markdown Syntax Guide</title>
-      <link>https://donnyao.github.io/post/markdown-syntax/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://donnyao.github.io/post/markdown-syntax/</guid>
-      <description>&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Placeholder Text</title>
-      <link>https://donnyao.github.io/post/placeholder-text/</link>
-      <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://donnyao.github.io/post/placeholder-text/</guid>
-      <description>&lt;p&gt;Lorem est tota propiore conpellat pectoribus de
-pectora summo.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Math Typesetting</title>
-      <link>https://donnyao.github.io/post/math-typesetting/</link>
-      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://donnyao.github.io/post/math-typesetting/</guid>
-      <description>&lt;p&gt;Mathematical notation in a Hugo project can be enabled by using third party JavaScript libraries.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Emoji Support</title>
-      <link>https://donnyao.github.io/post/emoji-support/</link>
-      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://donnyao.github.io/post/emoji-support/</guid>
-      <description>&lt;p&gt;Emoji can be enabled in a Hugo project in a number of ways.&lt;/p&gt;</description>
+      <description>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo
+Prerequisite Konfigurasi Network:
+ public api: 10.20.10.0/24 (ens3) internal api: 10.20.11.0/24 (ens4) self-service: 10.20.12.0/24 (ens5) provider: 10.20.13.0/24 (ens6) ceph public: 10.20.14.0/24 (ens7) ceph cluster: 10.20.15.0/24 (ens8)  Service yang akan diinstall:
+ Core service (keystone, nova, neutron, glance) Ceph backend (Cinder) Horizon (dashboard)  Preparation Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu</description>
     </item>
     
     <item>

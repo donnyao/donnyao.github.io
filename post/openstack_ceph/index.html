@@ -25,12 +25,16 @@
 
 
 <title>Openstack with Ceph storage backend provisioning | DO IT</title>
-<meta name="description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus.
-sudo apt udpate ">
+<meta name="description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo
+Prerequisite Konfigurasi Network:
+ public api: 10.20.10.0/24 (ens3) internal api: 10.20.11.0/24 (ens4) self-service: 10.20.12.0/24 (ens5) provider: 10.20.13.0/24 (ens6) ceph public: 10.20.14.0/24 (ens7) ceph cluster: 10.20.15.0/24 (ens8)  Service yang akan diinstall:
+ Core service (keystone, nova, neutron, glance) Ceph backend (Cinder) Horizon (dashboard)  Preparation Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu">
 <meta property="og:title" content="Openstack with Ceph storage backend provisioning | DO IT">
 <meta property="og:site_name" content="DO IT">
-<meta property="og:description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus.
-sudo apt udpate ">
+<meta property="og:description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo
+Prerequisite Konfigurasi Network:
+ public api: 10.20.10.0/24 (ens3) internal api: 10.20.11.0/24 (ens4) self-service: 10.20.12.0/24 (ens5) provider: 10.20.13.0/24 (ens6) ceph public: 10.20.14.0/24 (ens7) ceph cluster: 10.20.15.0/24 (ens8)  Service yang akan diinstall:
+ Core service (keystone, nova, neutron, glance) Ceph backend (Cinder) Horizon (dashboard)  Preparation Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu">
 <meta property="og:url" content="https://donnyao.github.io/post/openstack_ceph/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -40,8 +44,10 @@ sudo apt udpate ">
 	<link rel="canonical" href="https://donnyao.github.io/post/openstack_ceph/">
 
 
-	<meta name="twitter:description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus.
-sudo apt udpate ">
+	<meta name="twitter:description" content="Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo
+Prerequisite Konfigurasi Network:
+ public api: 10.20.10.0/24 (ens3) internal api: 10.20.11.0/24 (ens4) self-service: 10.20.12.0/24 (ens5) provider: 10.20.13.0/24 (ens6) ceph public: 10.20.14.0/24 (ens7) ceph cluster: 10.20.15.0/24 (ens8)  Service yang akan diinstall:
+ Core service (keystone, nova, neutron, glance) Ceph backend (Cinder) Horizon (dashboard)  Preparation Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu">
 <meta name="twitter:image" content="https://donnyao.github.io/images/openstack_ceph.png">
 <meta property="article:published_time" content="2021-07-11T00:00:00&#43;00:00">
 	<meta property="article:updated_time" content="2021-07-11T00:00:00&#43;00:00">
@@ -136,7 +142,7 @@ sudo apt udpate ">
 
 <script src="/js/collapseAuthors.js"></script>
                     July 11, 2021
-                    • 1 min read
+                    • 2 min read
                 </div>
             </div>
         </header>
@@ -166,8 +172,161 @@ sudo apt udpate ">
 
 
     <article  id="articleContent" class="post-content" style="position:relative;">
-        <p>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt udpate
+        <p>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus dengan kolla-ansible. letsgoo</p>
+<h2 id="prerequisite">Prerequisite</h2>
+<p><img src="/images/openstack_ceph_topologi.png" alt="Image"></p>
+<p>Konfigurasi Network:</p>
+<ul>
+<li>public api: 10.20.10.0/24 (ens3)</li>
+<li>internal api: 10.20.11.0/24 (ens4)</li>
+<li>self-service: 10.20.12.0/24 (ens5)</li>
+<li>provider: 10.20.13.0/24 (ens6)</li>
+<li>ceph public: 10.20.14.0/24 (ens7)</li>
+<li>ceph cluster: 10.20.15.0/24 (ens8)</li>
+</ul>
+<p>Service yang akan diinstall:</p>
+<ul>
+<li>Core service (keystone, nova, neutron, glance)</li>
+<li>Ceph backend (Cinder)</li>
+<li>Horizon (dashboard)</li>
+</ul>
+<h2 id="preparation">Preparation</h2>
+<p>Sebelum masuk ke tahap instalasi lakukan langkah - langkah persiapan terlebih dahulu</p>
+<h4 id="note-jalankan-perintah-dibawah-ini-pada-semua-node">Note: Jalankan perintah dibawah ini pada semua node</h4>
+<ul>
+<li>Buat user dan masukan ke grup sudo</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adduser donny
+usermod -aG sudo donny
+echo <span style="color:#e6db74">&#34;donny ALL=(root) NOPASSWD: ALL&#34;</span> | sudo tee /etc/sudoers.d/donny
+sudo chmod <span style="color:#ae81ff">0440</span> /etc/sudoers.d/donny
+su donny
+</code></pre></div><ul>
+<li>Update &amp; Upgrades paket pada semua node</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt update -y <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y
+</code></pre></div><ul>
+<li>Tambahkan host untuk semua node</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo nano /etc/hosts
+....
+10.20.11.211 <span style="color:#66d9ef">do</span>-os-controller1 <span style="color:#66d9ef">do</span>-os-controller1.internal.donny.lab
+10.20.10.211 <span style="color:#66d9ef">do</span>-os-controller1.public.donny.lab
+
+10.20.11.212 <span style="color:#66d9ef">do</span>-os-controller2 <span style="color:#66d9ef">do</span>-os-controller2.internal.donny.lab
+10.20.10.212 <span style="color:#66d9ef">do</span>-os-controller2.public.donny.lab
+
+10.20.11.213 <span style="color:#66d9ef">do</span>-os-controller3 <span style="color:#66d9ef">do</span>-os-controller3.internal.donny.lab
+10.20.10.213 <span style="color:#66d9ef">do</span>-os-controller3.public.donny.lab
+
+10.20.11.214 <span style="color:#66d9ef">do</span>-os-compute1 <span style="color:#66d9ef">do</span>-os-compute1.internal.donny.lab
+10.20.10.214 <span style="color:#66d9ef">do</span>-os-compute1.public.donny.lab
+
+10.20.11.215 <span style="color:#66d9ef">do</span>-os-compute2 <span style="color:#66d9ef">do</span>-os-compute2.internal.donny.lab
+10.20.10.215 <span style="color:#66d9ef">do</span>-os-compute2.public.donny.lab
+
+10.20.11.216 <span style="color:#66d9ef">do</span>-os-compute3 <span style="color:#66d9ef">do</span>-os-compute3.internal.donny.lab
+10.20.10.216 <span style="color:#66d9ef">do</span>-os-compute3.public.donny.lab
+
+10.20.11.200 internal.donny.lab
+10.20.10.200 public.donny.lab
+....
+</code></pre></div><ul>
+<li>Membuat SSH keypair dan copy ke semua node agar dapat ssh tanpa menggunakan password</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-keygen -t rsa
+tee -a /root/.ssh/authorized_keys <span style="color:#e6db74">&lt;&lt; EOF
+</span><span style="color:#e6db74">&lt;ssh pub key do-os-controller1&gt;
+</span><span style="color:#e6db74">&lt;ssh pub key do-os-controller2&gt;
+</span><span style="color:#e6db74">&lt;ssh pub key do-os-controller3&gt;
+</span><span style="color:#e6db74">&lt;ssh pub key do-os-compute1&gt;
+</span><span style="color:#e6db74">&lt;ssh pub key do-os-compute2&gt;
+</span><span style="color:#e6db74">&lt;ssh pub key do-os-compute3&gt;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><h2 id="instalasi-ceph">Instalasi Ceph</h2>
+<ul>
+<li>Install paket pip3</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt-get install python3-pip -y
+</code></pre></div><ul>
+<li>Clone file dari repo ceph-ansible</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/ceph/ceph-ansible.git
+cd ceph-ansible
+git checkout stable-5.0
+</code></pre></div><ul>
+<li>Install dependensi yang dibutuhkan</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip3 install -r requirements.txt
+</code></pre></div><ul>
+<li>Buat file konfigurasi ceph</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cp site.yml.sample site.yml
+cd group_vars/
+cp all.yml.sample all.yml
+cp mons.yml.sample mons.yml
+cp osds.yml.sample osds.yml
+cp mgrs.yml.sample mgrs.yml
+nano all.yml
+....
+ceph_origin: repository 
+ceph_repository: community 
+ceph_stable_release: octopus 
+monitor_interface: ens7
+osd_objectstore: bluestore 
+public_network: 10.20.14.0/24 
+cluster_network: 10.20.15.0/24 
+dashboard_enabled: True 
+dashboard_admin_user: admin 
+dashboard_admin_password: BHEJmFDWEDmFzdWOMoMm1a/j6+HeVoHUROKY378J7pE<span style="color:#f92672">=</span>
+grafana_admin_user: admin
+grafana_admin_password: yb2DWtryOY1B6HXJTJd44mjqVd43aE4vcyG6NWepz94<span style="color:#f92672">=</span>
+ntp_daemon_type: timesyncd
+....
+nano osds.yml
+....
+devices:
+  - /dev/vdb
+  - /dev/vdc
+  
+osd_auto_discovery: false
+....
+</code></pre></div><ul>
+<li>Buat ansible file konfigurasi</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ../
+nano ansible.cfg
+....
+<span style="color:#f92672">[</span>defaults<span style="color:#f92672">]</span> 
+inventory<span style="color:#f92672">=</span>hosts
+....
+</code></pre></div><ul>
+<li>Buat ansible inventory file</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nano hosts
+....
+<span style="color:#f92672">[</span>mons<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-controller1 
+<span style="color:#66d9ef">do</span>-os-controller2 
+<span style="color:#66d9ef">do</span>-os-controller3 
+ 
+<span style="color:#f92672">[</span>mgrs<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-controller1 
+<span style="color:#66d9ef">do</span>-os-controller2 
+<span style="color:#66d9ef">do</span>-os-controller3 
+ 
+<span style="color:#f92672">[</span>osds<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-compute1 
+<span style="color:#66d9ef">do</span>-os-compute2 
+<span style="color:#66d9ef">do</span>-os-compute3 
+ 
+<span style="color:#f92672">[</span>grafana-server<span style="color:#f92672">]</span> 
+<span style="color:#66d9ef">do</span>-os-controller1 
+....
+</code></pre></div><ul>
+<li>Cek koneksi ansible host</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible -m ping all
 </code></pre></div>
     </article>
 
@@ -178,14 +337,12 @@ sudo apt udpate ">
 
 
 
-    
-    
-    
-        
-    
 
 
 
+    
+    
+    
 
 <section id="articleNext" class="section nartrow">
     <h3 class="footer-next-heading">More articles from DO IT</h3>
@@ -193,41 +350,21 @@ sudo apt udpate ">
     <div class="next-articles-grid" numberOfArticles={numberOfArticles}>
         <div class="post-row">
             
-                <a href="/post/markdown-syntax/" class="article-link"
+                <a href="/post/openstack_ceph/" class="article-link"
                  id="article-link-bigger">
                     <div>
                         <div class="image-container">
-                            <img src="/images/hero-2.jpg" class="article-image" />
+                            <img src="/images/openstack_ceph.png" class="article-image" />
                         </div>
                         <div>
                             <h2 class="article-title">
-                                Markdown Syntax Guide
+                                Openstack with Ceph storage backend provisioning
                             </h2>
                             <p class="article-excerpt">
-                                Sample article showcasing basic Markdown syntax and formatting for HTML elements.
+                                
                             </p>
                             <div class="article-metadata">
-                                March 11, 2019 · 2 min read
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            
-                <a href="/post/placeholder-text/" class="article-link"
-                >
-                    <div>
-                        <div class="image-container">
-                            <img src="/images/hero-4.jpg" class="article-image" />
-                        </div>
-                        <div>
-                            <h2 class="article-title">
-                                Placeholder Text
-                            </h2>
-                            <p class="article-excerpt">
-                                Lorem Ipsum Dolor Si Amet
-                            </p>
-                            <div class="article-metadata">
-                                March 9, 2019 · 2 min read
+                                July 11, 2021 · 2 min read
                             </div>
                         </div>
                     </div>
