@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>DO IT</title>
-    <link>https://donnyao.github.io/</link>
-    <description>Recent content on DO IT</description>
+    <title>Hugo Authors on DO IT</title>
+    <link>https://donnyao.github.io/authors/hugo-authors/</link>
+    <description>Recent content in Hugo Authors on DO IT</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Nov 2021 16:04:10 +0700</lastBuildDate><atom:link href="https://donnyao.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Test</title>
-      <link>https://donnyao.github.io/post/test/</link>
-      <pubDate>Fri, 19 Nov 2021 16:04:10 +0700</pubDate>
-      
-      <guid>https://donnyao.github.io/post/test/</guid>
-      <description>This my test content
-clear </description>
-    </item>
-    
-    <item>
-      <title>Openstack &#43; Ceph</title>
-      <link>https://donnyao.github.io/post/openstack_ceph/</link>
-      <pubDate>Sun, 11 Jul 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://donnyao.github.io/post/openstack_ceph/</guid>
-      <description>Halo, kali ini kita akan membahas bagaimana deploy openstack dengan ceph sebagai backend storage nya. Pada artikel ini openstack yang digunakan versi Ussuri dan Ceph Octopus.
-sudo apt udpate </description>
-    </item>
-    
+    <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://donnyao.github.io/authors/hugo-authors/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Markdown Syntax Guide</title>
       <link>https://donnyao.github.io/post/markdown-syntax/</link>
@@ -62,17 +42,6 @@ pectora summo.&lt;/p&gt;</description>
       
       <guid>https://donnyao.github.io/post/emoji-support/</guid>
       <description>&lt;p&gt;Emoji can be enabled in a Hugo project in a number of ways.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://donnyao.github.io/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://donnyao.github.io/about/</guid>
-      <description>Etiam porta sem malesuada magna mollis euismod. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec id elit non mi porta gravida at eget metus. Donec sed odio dui.
-Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-Nulla vitae elit libero, a pharetra augue.</description>
     </item>
     
   </channel>
