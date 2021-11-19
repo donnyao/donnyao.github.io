@@ -8,7 +8,7 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 11 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://donnyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Openstack &#43; Ceph</title>
+      <title>Openstack with Ceph storage backend provisioning</title>
       <link>https://donnyao.github.io/post/openstack_ceph/</link>
       <pubDate>Sun, 11 Jul 2021 00:00:00 +0000</pubDate>
       
