@@ -139,7 +139,7 @@ cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia
 
 <script src="/js/collapseAuthors.js"></script>
                     November 19, 2021
-                    • 4 min read
+                    • 5 min read
                 </div>
             </div>
         </header>
@@ -196,6 +196,18 @@ sudo mkdir -p /etc/kolla/config/octavia
 sudo chown -R $USER:$USER /etc/kolla/config
 cp * /etc/kolla/config/octavia
 cd ~
+</code></pre></div><ul>
+<li>Instal dependensi untuk membuat image amphora</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">deactivate
+python3 -m venv disk-builder
+source disk-builder/bin/activate
+pip install diskimage-builder
+</code></pre></div><ul>
+<li>Membuat image Amphora, default nya akan membuat image ubuntu</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd octavia/diskimage-create
+./diskimage-create.sh
 </code></pre></div><ul>
 <li>Edit file globals kolla-ansible</li>
 </ul>
@@ -467,7 +479,7 @@ openstack loadbalancer member create --subnet-id private-subnet --address 192.16
                                 
                             </p>
                             <div class="article-metadata">
-                                November 19, 2021 · 4 min read
+                                November 19, 2021 · 5 min read
                             </div>
                         </div>
                     </div>
