@@ -27,12 +27,12 @@
 <title>Adding Octavia Openstack Service | DO IT</title>
 <meta name="description" content="Kali ini kita akan menambahkan service loadbalancer pada Openstack. Disini saya menggunakan kolla-ansible untuk mendeploy service Octavia. Tutorial ini menggunakan versi Openstack Ussuri pada Ubuntu 18.04 dengan deployment tool Kolla-Ansible.
 Prerequisite  Openstack Cluster  Deploy Octavia Note: Jalankan perintah dibawah ini pada deployer node  Generate certificate untuk service octavia  cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Cari password octavia
-cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Edit password pada script">
+grep octavia_keystone /etc/kolla/passwords.yml ex output: octavia_keystone_password: VQ2vA5AsFZLzt1t1FK39sMMu2R5BXMSSXtIXOWow Edit password pada script">
 <meta property="og:title" content="Adding Octavia Openstack Service | DO IT">
 <meta property="og:site_name" content="DO IT">
 <meta property="og:description" content="Kali ini kita akan menambahkan service loadbalancer pada Openstack. Disini saya menggunakan kolla-ansible untuk mendeploy service Octavia. Tutorial ini menggunakan versi Openstack Ussuri pada Ubuntu 18.04 dengan deployment tool Kolla-Ansible.
 Prerequisite  Openstack Cluster  Deploy Octavia Note: Jalankan perintah dibawah ini pada deployer node  Generate certificate untuk service octavia  cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Cari password octavia
-cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Edit password pada script">
+grep octavia_keystone /etc/kolla/passwords.yml ex output: octavia_keystone_password: VQ2vA5AsFZLzt1t1FK39sMMu2R5BXMSSXtIXOWow Edit password pada script">
 <meta property="og:url" content="https://donnyao.github.io/post/openstack_octavia/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -44,7 +44,7 @@ cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia
 
 	<meta name="twitter:description" content="Kali ini kita akan menambahkan service loadbalancer pada Openstack. Disini saya menggunakan kolla-ansible untuk mendeploy service Octavia. Tutorial ini menggunakan versi Openstack Ussuri pada Ubuntu 18.04 dengan deployment tool Kolla-Ansible.
 Prerequisite  Openstack Cluster  Deploy Octavia Note: Jalankan perintah dibawah ini pada deployer node  Generate certificate untuk service octavia  cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Cari password octavia
-cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia/bin Edit password pada script">
+grep octavia_keystone /etc/kolla/passwords.yml ex output: octavia_keystone_password: VQ2vA5AsFZLzt1t1FK39sMMu2R5BXMSSXtIXOWow Edit password pada script">
 <meta name="twitter:image" content="https://donnyao.github.io/images/openstack_octavia.png">
 <meta property="article:published_time" content="2021-11-20T00:00:00&#43;00:00">
 	<meta property="article:updated_time" content="2021-11-20T00:00:00&#43;00:00">
@@ -139,7 +139,7 @@ cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia
 
 <script src="/js/collapseAuthors.js"></script>
                     November 20, 2021
-                    • 5 min read
+                    • 4 min read
                 </div>
             </div>
         </header>
@@ -183,9 +183,10 @@ cd ~ git clone https://opendev.org/openstack/octavia -b stable/ussuri cd octavia
 git clone https://opendev.org/openstack/octavia -b stable/ussuri
 cd octavia/bin
 </code></pre></div><p>Cari password octavia</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ~
-git clone https://opendev.org/openstack/octavia -b stable/ussuri
-cd octavia/bin
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">grep octavia_keystone /etc/kolla/passwords.yml
+
+ex output:
+octavia_keystone_password: VQ2vA5AsFZLzt1t1FK39sMMu2R5BXMSSXtIXOWow
 </code></pre></div><p>Edit password pada script</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sed -i <span style="color:#e6db74">&#39;s/not-secure-passphrase/&lt;octavia_ca_password&gt;/g&#39;</span> create_single_CA_intermediate_CA.sh
 </code></pre></div><p>Jalankan script</p>
@@ -197,25 +198,13 @@ sudo chown -R $USER:$USER /etc/kolla/config
 cp * /etc/kolla/config/octavia
 cd ~
 </code></pre></div><ul>
-<li>Instal dependensi untuk membuat image amphora</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">deactivate
-python3 -m venv disk-builder
-source disk-builder/bin/activate
-pip install diskimage-builder
-</code></pre></div><ul>
-<li>Membuat image Amphora, default nya akan membuat image ubuntu</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd octavia/diskimage-create
-./diskimage-create.sh
-</code></pre></div><ul>
 <li>Selanjutnya adalah deploy octavia, edit file globals kolla-ansible</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">enable_octavia: <span style="color:#e6db74">&#34;yes&#34;</span>
 </code></pre></div><ul>
 <li>Deploy service Octavia Openstack</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kolla-ansible -i multinode deploy
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kolla-ansible -i multinode deploy -t octavia
 </code></pre></div><ul>
 <li>Buat file openrc octavia</li>
 </ul>
@@ -242,11 +231,7 @@ export OS_PASSWORD<span style="color:#f92672">=</span>&lt;octavia_keystone_passw
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install -y qemu-utils git kpartx debootstrap
 </code></pre></div><ul>
-<li>Membuat image Amphora</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://opendev.org/openstack/octavia -b stable/ussuri
-</code></pre></div><ul>
-<li>Install paket disk-builder</li>
+<li>Membuat image Amphora, sebelumnya kita harus menginstall paket disk-builder terlebih dahulu</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">deactivate
 python3 -m venv disk-builder
@@ -255,7 +240,8 @@ pip install diskimage-builder
 </code></pre></div><ul>
 <li>Membuat image Amphora, default nya akan membuat image ubuntu</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd octavia/diskimage-create
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ~
+cd octavia/diskimage-create
 ./diskimage-create.sh
 </code></pre></div><ul>
 <li>Upload image to Glance</li>
@@ -479,7 +465,7 @@ openstack loadbalancer member create --subnet-id private-subnet --address 192.16
                                 
                             </p>
                             <div class="article-metadata">
-                                November 20, 2021 · 5 min read
+                                November 20, 2021 · 4 min read
                             </div>
                         </div>
                     </div>
