@@ -3,18 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://donnyao.github.io/</loc>
-    <lastmod>2021-11-19T00:00:00+00:00</lastmod>
+    <lastmod>2021-11-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://donnyao.github.io/post/openstack_octavia/</loc>
+    <lastmod>2021-11-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://donnyao.github.io/authors/</loc>
-    <lastmod>2021-11-19T00:00:00+00:00</lastmod>
+    <lastmod>2021-11-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://donnyao.github.io/authors/hugo-authors/</loc>
-    <lastmod>2021-11-19T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://donnyao.github.io/post/openstack_ceph/</loc>
-    <lastmod>2021-11-19T00:00:00+00:00</lastmod>
+    <lastmod>2021-11-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://donnyao.github.io/post/</loc>
+    <lastmod>2021-11-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://donnyao.github.io/post/openstack_ceph/</loc>
     <lastmod>2021-11-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://donnyao.github.io/about/</loc>
