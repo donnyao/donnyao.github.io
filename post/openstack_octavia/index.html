@@ -259,7 +259,6 @@ cd octavia/diskimage-create
 openstack security group rule create --protocol icmp lb-mgmt-sec-grp
 openstack security group rule create --protocol tcp --dst-port <span style="color:#ae81ff">22</span> lb-mgmt-sec-grp
 openstack security group rule create --protocol tcp --dst-port <span style="color:#ae81ff">9443</span> lb-mgmt-sec-grp
-<span style="color:#ae81ff">024</span> --disk <span style="color:#ae81ff">3</span> <span style="color:#e6db74">&#34;amphora&#34;</span> --private
 </code></pre></div><p>Health Manager</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openstack security group create lb-health-mgr-sec-grp
 openstack security group rule create --protocol udp --dst-port <span style="color:#ae81ff">5555</span> lb-health-mgr-sec-grp
